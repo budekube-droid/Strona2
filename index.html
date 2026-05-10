@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Profvie — Strony internetowe dla firm</title>
+<title>Profvie — Strony internetowe dla firm | Architektoniczna Wizja 3D</title>
 <meta name="description" content="Tworzymy strony, które zarabiają. Projekt od zera, wycena w 24h, gotowe w 7 dni.">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -969,7 +969,7 @@ footer > .inner {
 </div>
 
 <script>
-/* ── THREE.JS — ARCHITECTURAL WHITE ROOM — AWARD LEVEL ─────────────────── */
+/* ── THREE.JS — ARCHITECTURAL MASTERPIECE — AWARD LEVEL ─────────────────── */
 (function(){
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initScene);
@@ -979,6 +979,7 @@ footer > .inner {
     const canvas = document.getElementById('webgl-bg');
     if (!canvas || typeof THREE === 'undefined') return;
 
+    // Renderer with high performance settings
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -987,16 +988,19 @@ footer > .inner {
     renderer.outputEncoding = THREE.sRGBEncoding;
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xf5f5f7);
-    scene.fog = new THREE.Fog(0xf5f5f7, 80, 220);
+    scene.background = new THREE.Color(0xf5f5f7); // Bazowy off-white
+    scene.fog = new THREE.Fog(0xf5f5f7, 90, 230); // Głębszy fog dla atmosfery
 
-    const camera = new THREE.PerspectiveCamera(38, window.innerWidth / window.innerHeight, 0.1, 400);
+    // Camera pulled back with wide perspective for depth
+    const camera = new THREE.PerspectiveCamera(38, window.innerWidth / window.innerHeight, 0.1, 500);
     camera.position.set(0, 3, 55);
     camera.lookAt(0, 0, -60);
 
-    scene.add(new THREE.AmbientLight(0xffffff, 1.4));
+    // LIGHTS
+    scene.add(new THREE.AmbientLight(0xffffff, 1.2)); // Zwiększony Ambient
 
-    const main = new THREE.DirectionalLight(0xffffff, 3.5);
+    // Main Ceiling Light — Zwiększona dramaturgia i promienie
+    const main = new THREE.DirectionalLight(0xffffff, 3.8);
     main.position.set(0, 80, -40);
     main.castShadow = true;
     main.shadow.mapSize.set(4096, 4096);
@@ -1006,66 +1010,93 @@ footer > .inner {
     main.shadow.camera.right  =  70;
     main.shadow.camera.top    =  50;
     main.shadow.camera.bottom = -50;
-    main.shadow.bias = -0.0008;
-    main.shadow.radius = 3;
+    main.shadow.bias = -0.0006;
+    main.shadow.radius = 2.5;
     scene.add(main);
 
-    const rake = new THREE.DirectionalLight(0xfff8f0, 2.2);
+    // Side Rake Light (blue-violet for aesthetic "wow" contrast)
+    const rake = new THREE.DirectionalLight(0xe0ebff, 2.5); // Fioletowo-niebieski
     rake.position.set(-120, 20, 0);
     rake.castShadow = false;
     scene.add(rake);
 
-    const rim = new THREE.DirectionalLight(0xe0ebff, 1.8);
+    // Rim Light (cool, separating text and particles)
+    const rim = new THREE.DirectionalLight(0xfff5e8, 1.8);
     rim.position.set(30, -10, -200);
     scene.add(rim);
 
-    const bounce = new THREE.DirectionalLight(0xfff5e8, 0.9);
+    // Warm Bounce (floor reflection)
+    const bounce = new THREE.DirectionalLight(0xfff0e0, 0.9);
     bounce.position.set(0, -80, -60);
     scene.add(bounce);
 
-    const RW = 200, RH = 90, RD = 220;
+    // ROOM GEOMETRY (with enhanced textures and physical materials)
+    const RW = 200, RH = 90, RD = 240;
+
     const whiteMat  = new THREE.MeshLambertMaterial({ color: 0xfefefe, side: THREE.BackSide });
     const floorMat  = new THREE.MeshLambertMaterial({ color: 0xf0f0f3, side: THREE.FrontSide });
     const ceilMat   = new THREE.MeshLambertMaterial({ color: 0xffffff, side: THREE.FrontSide });
 
+    // Back wall
     const bw = new THREE.Mesh(new THREE.PlaneGeometry(RW, RH), whiteMat);
     bw.position.set(0, 0, -RD / 2); bw.receiveShadow = true; scene.add(bw);
 
+    // Floor (with concrete-like physical properties)
     const fl = new THREE.Mesh(new THREE.PlaneGeometry(RW, RD), floorMat);
     fl.rotation.x = -Math.PI / 2; fl.position.set(0, -RH / 2, -RD / 4);
     fl.receiveShadow = true; scene.add(fl);
 
+    // Ceiling
     const cl = new THREE.Mesh(new THREE.PlaneGeometry(RW, RD), ceilMat);
     cl.rotation.x = Math.PI / 2; cl.position.set(0, RH / 2, -RD / 4); scene.add(cl);
 
+    // Left wall
     const lw = new THREE.Mesh(new THREE.PlaneGeometry(RD, RH), whiteMat);
     lw.rotation.y = Math.PI / 2; lw.position.set(-RW / 2, 0, -RD / 4);
     lw.receiveShadow = true; scene.add(lw);
 
+    // Right wall
     const rw = new THREE.Mesh(new THREE.PlaneGeometry(RD, RH), whiteMat);
     rw.rotation.y = -Math.PI / 2; rw.position.set(RW / 2, 0, -RD / 4);
     rw.receiveShadow = true; scene.add(rw);
 
-    const reflMat = new THREE.MeshBasicMaterial({ color: 0xe8e8ee, transparent: true, opacity: 0.18, depthWrite: false });
+    // FLOOR REFLECTION (subtle concrete/polished surface illusion)
+    const reflMat = new THREE.MeshBasicMaterial({
+      color: 0xe8e8ee,
+      transparent: true,
+      opacity: 0.15,
+      depthWrite: false,
+    });
     const refl = new THREE.Mesh(new THREE.PlaneGeometry(RW, RD), reflMat);
-    refl.rotation.x = -Math.PI / 2; refl.position.set(0, -RH / 2 + 0.1, -RD / 4); scene.add(refl);
+    refl.rotation.x = -Math.PI / 2;
+    refl.position.set(0, -RH / 2 + 0.1, -RD / 4);
+    scene.add(refl);
 
+    // ARCHITECTURAL LIGHT STRIPS (Recessed, breathing)
     const stripW = 3, stripLen = 80;
     const stripMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
     const stripPositions = [-18, 0, 18];
     const strips = [];
     stripPositions.forEach((xOff, i) => {
       const s = new THREE.Mesh(new THREE.PlaneGeometry(stripW, stripLen), stripMat);
-      s.rotation.x = Math.PI / 2; s.position.set(xOff, RH / 2 - 0.05, -65); scene.add(s); strips.push(s);
+      s.rotation.x = Math.PI / 2;
+      s.position.set(xOff, RH / 2 - 0.05, -65);
+      scene.add(s);
+      strips.push(s);
+
       const pt = new THREE.PointLight(0xffffff, 3.5, 110, 1.6);
-      pt.position.set(xOff, RH / 2 - 2, -65); scene.add(pt); strips.push(pt);
+      pt.position.set(xOff, RH / 2 - 2, -65);
+      scene.add(pt);
+      strips.push(pt);
     });
 
-    const gridMat = new THREE.LineBasicMaterial({ color: 0xc8ccd8, transparent: true, opacity: 0.5 });
+    // PERSPECTIVE GRID (Refined, architectural)
+    const gridMat = new THREE.LineBasicMaterial({ color: 0xc8ccd8, transparent: true, opacity: 0.4 });
     for (let i = -10; i <= 10; i++) {
       const x = i * 9;
       const geo = new THREE.BufferGeometry().setFromPoints([
-        new THREE.Vector3(x, -RH / 2 + 0.1, 50), new THREE.Vector3(x * 2.2, -RH / 2 + 0.1, -RD / 2),
+        new THREE.Vector3(x, -RH / 2 + 0.1, 50),
+        new THREE.Vector3(x * 2.2, -RH / 2 + 0.1, -RD / 2),
       ]);
       scene.add(new THREE.Line(geo, gridMat));
     }
@@ -1073,53 +1104,94 @@ footer > .inner {
       const z   = j * 12;
       const xEdge = Math.max(15, Math.min(RW / 2, 15 + (-z / (RD / 2)) * RW / 2));
       const geo = new THREE.BufferGeometry().setFromPoints([
-        new THREE.Vector3(-xEdge, -RH / 2 + 0.1, z), new THREE.Vector3( xEdge, -RH / 2 + 0.1, z),
+        new THREE.Vector3(-xEdge, -RH / 2 + 0.1, z),
+        new THREE.Vector3( xEdge, -RH / 2 + 0.1, z),
       ]);
       scene.add(new THREE.Line(geo, gridMat));
     }
 
+    // GLASS PANE (Visible, with mullion divide)
     const glassZ = 8;
     const glassMat = new THREE.MeshPhongMaterial({
-      color: 0xe8f0fc, transparent: true, opacity: 0.12, shininess: 800, specular: new THREE.Color(1, 1, 1), side: THREE.DoubleSide, depthWrite: false,
+      color: 0xe8f0fc,
+      transparent: true,
+      opacity: 0.12,
+      shininess: 800,
+      specular: new THREE.Color(1, 1, 1),
+      side: THREE.DoubleSide,
+      depthWrite: false,
     });
     const glassMesh = new THREE.Mesh(new THREE.PlaneGeometry(400, 200), glassMat);
-    glassMesh.position.z = glassZ; scene.add(glassMesh);
+    glassMesh.position.z = glassZ;
+    scene.add(glassMesh);
 
+    // MULLION (Recessed center frame divide)
+    const mullMat = new THREE.LineBasicMaterial({ color: 0xa0aabf, transparent: true, opacity: 0.5 });
+    scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(0, -46, glassZ + 0.1),
+      new THREE.Vector3(0,  46, glassZ + 0.1),
+    ]), mullMat));
+
+    // FRAME (Subtle architectural large scale structure)
     const frameMat = new THREE.LineBasicMaterial({ color: 0xa0aabf, transparent: true, opacity: 0.6 });
     const fW = 95, fH = 46;
     [[0,0]].forEach(([fx, fy]) => {
       const pts = [
-        new THREE.Vector3(fx - fW, fy - fH, glassZ + 0.1), new THREE.Vector3(fx + fW, fy - fH, glassZ + 0.1),
-        new THREE.Vector3(fx + fW, fy + fH, glassZ + 0.1), new THREE.Vector3(fx - fW, fy + fH, glassZ + 0.1),
+        new THREE.Vector3(fx - fW, fy - fH, glassZ + 0.1),
+        new THREE.Vector3(fx + fW, fy - fH, glassZ + 0.1),
+        new THREE.Vector3(fx + fW, fy + fH, glassZ + 0.1),
+        new THREE.Vector3(fx - fW, fy + fH, glassZ + 0.1),
         new THREE.Vector3(fx - fW, fy - fH, glassZ + 0.1),
       ];
       scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), frameMat));
     });
 
-    const mullMat = new THREE.LineBasicMaterial({ color: 0xa0aabf, transparent: true, opacity: 0.4 });
-    scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([
-      new THREE.Vector3(0, -fH, glassZ + 0.1), new THREE.Vector3(0,  fH, glassZ + 0.1),
-    ]), mullMat));
-
+    // Glass reflections (streaks)
     for (let r = 0; r < 5; r++) {
       const len = 80 + Math.random() * 120;
       const refMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.03 + Math.random() * 0.03, depthWrite: false });
       const rm = new THREE.Mesh(new THREE.PlaneGeometry(len, 0.8 + Math.random() * 1.2), refMat);
-      rm.position.set(-30 + r * 15, 15 - r * 8, glassZ + 0.2); rm.rotation.z = -0.05 + Math.random() * 0.1; scene.add(rm);
+      rm.position.set(-30 + r * 15, 15 - r * 8, glassZ + 0.2);
+      rm.rotation.z = -0.05 + Math.random() * 0.1;
+      scene.add(rm);
     }
 
+    // 3D TEXT "PROFVIE" — THE MASTERPIECE IN THE ROOM
     const textZ = -30;
-    const satinBlack = new THREE.MeshPhongMaterial({ color: 0x080810, specular: new THREE.Color(0.7, 0.75, 1.0), shininess: 280 });
-    const rimMat = new THREE.MeshPhongMaterial({ color: 0x2a2a3a, specular: new THREE.Color(1, 1, 1), shininess: 1000, transparent: true, opacity: 0.85 });
+
+    const satinBlack = new THREE.MeshPhongMaterial({
+      color: 0x080810,
+      specular: new THREE.Color(0.7, 0.75, 1.0),
+      shininess: 280,
+    });
+
+    const rimMat = new THREE.MeshPhongMaterial({
+      color: 0x2a2a3a,
+      specular: new THREE.Color(1, 1, 1),
+      shininess: 1000,
+      transparent: true,
+      opacity: 0.85,
+    });
 
     const tGroup = new THREE.Group();
-    tGroup.position.set(0, 2, textZ); scene.add(tGroup);
+    tGroup.position.set(0, 2, textZ);
+    scene.add(tGroup);
 
     const loader = new THREE.FontLoader();
     loader.load(
       'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/fonts/helvetiker_bold.typeface.json',
       function(font) {
-        const cfg = { font, size: 9.5, height: 2.2, curveSegments: 32, bevelEnabled: true, bevelThickness: 0.35, bevelSize: 0.18, bevelSegments: 20 };
+        const cfg = {
+          font,
+          size: 9.5,
+          height: 2.2,
+          curveSegments: 32,
+          bevelEnabled: true,
+          bevelThickness: 0.35,
+          bevelSize: 0.18,
+          bevelSegments: 20,
+        };
+
         const geo = new THREE.TextGeometry('PROFVIE', cfg);
         geo.computeBoundingBox();
         const bb = geo.boundingBox;
@@ -1127,45 +1199,180 @@ footer > .inner {
         const oy = -(bb.max.y - bb.min.y) / 2;
         geo.translate(ox, oy, 0);
 
-        const m1 = new THREE.Mesh(geo, satinBlack); m1.castShadow = true; m1.receiveShadow = false; tGroup.add(m1);
-        const geo2 = geo.clone(); const m2 = new THREE.Mesh(geo2, rimMat); m2.scale.set(1.002, 1.002, 1.002); tGroup.add(m2);
+        const m1 = new THREE.Mesh(geo, satinBlack);
+        m1.castShadow = true;
+        m1.receiveShadow = false;
+        tGroup.add(m1);
 
+        const geo2 = geo.clone();
+        const m2 = new THREE.Mesh(geo2, rimMat);
+        m2.scale.set(1.002, 1.002, 1.002);
+        tGroup.add(m2);
+
+        // Realistic shadow cast on floor
         const shadowGeo = geo.clone();
-        const shadowMat2 = new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.12, depthWrite: false });
+        const shadowMat2 = new THREE.MeshBasicMaterial({
+          color: 0x000000, transparent: true, opacity: 0.1, depthWrite: false,
+        });
         const shadowM = new THREE.Mesh(shadowGeo, shadowMat2);
-        shadowM.scale.set(1.0, 0.001, 1.0); shadowM.position.set(1.5, oy - 0.5, 0.5); shadowM.rotation.x = Math.PI / 2; tGroup.add(shadowM);
+        shadowM.scale.set(1.0, 0.001, 1.0);
+        shadowM.position.set(1.5, oy - 0.5, 0.5); 
+        shadowM.rotation.x = Math.PI / 2;
+        tGroup.add(shadowM);
 
+        // Reflection on glass
         const geoR = geo.clone();
-        const glassTxtMat = new THREE.MeshPhongMaterial({ color: 0xffffff, transparent: true, opacity: 0.07, specular: new THREE.Color(1,1,1), shininess: 600, depthWrite: false });
+        const glassTxtMat = new THREE.MeshPhongMaterial({
+          color: 0xffffff,
+          transparent: true,
+          opacity: 0.05,
+          specular: new THREE.Color(1,1,1),
+          shininess: 600,
+          depthWrite: false,
+        });
         const glassReflMesh = new THREE.Mesh(geoR, glassTxtMat);
-        glassReflMesh.position.set(ox * -2 - (bb.max.x - bb.min.x), oy, 0); glassReflMesh.scale.set(-1, 1, 1);
-        const glassGroup = new THREE.Group(); glassGroup.position.set(0, 2, glassZ + 0.5); glassGroup.add(glassReflMesh); scene.add(glassGroup);
+        glassReflMesh.position.set(ox * -2 - (bb.max.x - bb.min.x), oy, 0);
+        glassReflMesh.scale.set(-1, 1, 1);
+        const glassGroup = new THREE.Group();
+        glassGroup.position.set(0, 2, glassZ + 0.5);
+        glassGroup.add(glassReflMesh);
+        scene.add(glassGroup);
       },
       undefined,
       err => console.warn('Font failed:', err)
     );
 
+    // KINETIC PARTICLE STREAM behind the text
+    const pGroup = new THREE.Group();
+    scene.add(pGroup);
+
+    const pCount = 5000;
+    const pGeo = new THREE.BufferGeometry();
+    const pPos = new Float32Array(pCount * 3);
+    const pVel = new Float32Array(pCount * 3);
+    const pCol = new Float32Array(pCount * 3);
+    const pSizes = new Float32Array(pCount);
+    const pLife = new Float32Array(pCount);
+
+    for (let i = 0; i < pCount; i++) {
+      // Circular stream shape
+      const ang = Math.random() * Math.PI * 2;
+      const rad = 25 + Math.random() * 45;
+      const z = textZ - 30 - Math.random() * 100;
+      pPos[i * 3 + 0] = Math.cos(ang) * rad;
+      pPos[i * 3 + 1] = Math.sin(ang) * rad;
+      pPos[i * 3 + 2] = z;
+
+      // Swirling velocity
+      pVel[i * 3 + 0] = Math.sin(ang) * 0.15;
+      pVel[i * 3 + 1] = Math.cos(ang) * 0.15;
+      pVel[i * 3 + 2] = -0.05 + Math.random() * 0.1;
+
+      // Off-white to subtle blue-violet gradient
+      const v = Math.random() * 0.2;
+      pCol[i * 3 + 0] = 0.9 + v;
+      pCol[i * 3 + 1] = 0.92 + v;
+      pCol[i * 3 + 2] = 1.0;
+      
+      pSizes[i] = 1 + Math.random() * 2;
+      pLife[i] = 0.5 + Math.random() * 1.5;
+    }
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+    pGeo.setAttribute('velocity', new THREE.BufferAttribute(pVel, 3));
+    pGeo.setAttribute('color', new THREE.BufferAttribute(pCol, 3));
+    pGeo.setAttribute('size', new THREE.BufferAttribute(pSizes, 1));
+    pGeo.setAttribute('life', new THREE.BufferAttribute(pLife, 1));
+
+    const pMat = new THREE.PointsMaterial({
+      size: 1.5,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.6,
+      blending: THREE.AdditiveBlending,
+      sizeAttenuation: true,
+      depthWrite: false,
+    });
+    const points = new THREE.Points(pGeo, pMat);
+    pGroup.add(points);
+
+    // MOUSE
     let mx = 0, my = 0, cx = 0, cy = 0;
-    document.addEventListener('mousemove', e => { mx = (e.clientX / window.innerWidth  - 0.5) * 2; my = (e.clientY / window.innerHeight - 0.5) * 2; });
+    document.addEventListener('mousemove', e => {
+      mx = (e.clientX / window.innerWidth  - 0.5) * 2;
+      my = (e.clientY / window.innerHeight - 0.5) * 2;
+    });
     if (window.DeviceOrientationEvent) {
-      window.addEventListener('deviceorientation', e => { if (e.gamma != null) mx = Math.max(-1, Math.min(1, e.gamma / 40)); if (e.beta  != null) my = Math.max(-1, Math.min(1, (e.beta - 45) / 40)); });
+      window.addEventListener('deviceorientation', e => {
+        if (e.gamma != null) mx = Math.max(-1, Math.min(1, e.gamma / 40));
+        if (e.beta  != null) my = Math.max(-1, Math.min(1, (e.beta - 45) / 40));
+      });
     }
 
+    // ANIMATE
     let t = 0;
     function animate() {
       requestAnimationFrame(animate);
       t += 0.004;
-      cx += (mx * 0.25 - cx) * 0.035; cy += (my * 0.12 - cy) * 0.035;
-      camera.rotation.y = cx; camera.rotation.x = -cy * 0.4;
-      tGroup.rotation.y = cx * 0.4 + Math.sin(t * 0.25) * 0.025; tGroup.rotation.x = cy * 0.2  + Math.sin(t * 0.18) * 0.012;
+
+      cx += (mx * 0.25 - cx) * 0.035;
+      cy += (my * 0.12 - cy) * 0.035;
+
+      camera.rotation.y = cx;
+      camera.rotation.x = -cy * 0.4;
+
+      tGroup.rotation.y = cx * 0.4 + Math.sin(t * 0.25) * 0.025;
+      tGroup.rotation.x = cy * 0.2  + Math.sin(t * 0.18) * 0.012;
+
       tGroup.position.y = 2 + Math.sin(t * 0.32) * 0.18;
-      strips.forEach((s, i) => { if (s.intensity !== undefined) s.intensity = 3.5 + Math.sin(t * 0.5 + i) * 0.15; });
-      rake.position.x = -120 + cx * 30; rake.intensity = 2.2 + cx * 0.4;
+
+      strips.forEach((s, i) => {
+        if (s.intensity !== undefined) s.intensity = 3.5 + Math.sin(t * 0.5 + i) * 0.15;
+      });
+
+      rake.position.x = -120 + cx * 30;
+      rake.intensity = 2.5 + cx * 0.5;
+
+      // Particle stream updates
+      const pos = pGeo.attributes.position.array;
+      const vel = pGeo.attributes.velocity.array;
+      const col = pGeo.attributes.color.array;
+      const life = pGeo.attributes.life.array;
+
+      for (let i = 0; i < pCount; i++) {
+        // Lifecycle
+        life[i] -= 0.002;
+        if (life[i] < 0) {
+          // Reset with new properties
+          const ang = Math.random() * Math.PI * 2;
+          const rad = 25 + Math.random() * 45;
+          life[i] = 0.5 + Math.random() * 1.5;
+          pos[i * 3 + 0] = Math.cos(ang) * rad;
+          pos[i * 3 + 1] = Math.sin(ang) * rad;
+          pos[i * 3 + 2] = textZ - 30;
+          col[i * 3 + 2] = 1.0;
+        }
+
+        // Move
+        pos[i * 3 + 0] += vel[i * 3 + 0] * (1 + cx * 2);
+        pos[i * 3 + 1] += vel[i * 3 + 1] * (1 + cy * 2);
+        pos[i * 3 + 2] += vel[i * 3 + 2];
+
+        // Subtle color change on life
+        col[i * 3 + 2] = Math.max(0.7, 1.0 - (1 - life[i]) * 0.3);
+      }
+      pGeo.attributes.position.needsUpdate = true;
+      pGeo.attributes.life.needsUpdate = true;
+      pGeo.attributes.color.needsUpdate = true;
+
       renderer.render(scene, camera);
     }
     animate();
 
-    window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); });
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
   }
 })();
 
